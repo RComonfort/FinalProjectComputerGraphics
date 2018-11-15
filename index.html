@@ -10,7 +10,7 @@
     <body> 
 		<script src="three.min.js"> </script>
 		<script src="Three.CSG.js"></script>
-		<script src="Cafeteria.js"></script>
+		<script src="Aula.js"></script>
         <script> 
             
 			var scene = new THREE.Scene(); 
@@ -30,10 +30,10 @@
 			window.addEventListener('keydown',doKeyDown,true);
 			
 			//Setup scene objects
-			var cafeteria = new Cafeteria();
-			cafeteria.object3D.position.z -= 10;
+			var aula = new Aula();
+			aula.object3D.position.z -= 10;
 
-			scene.add(cafeteria.object3D);
+			scene.add(aula.object3D);
 			
 			//Tick function
 			var render = function () { 
