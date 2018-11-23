@@ -11,6 +11,7 @@
 		<script src="three.min.js"> </script>
 		<script src="Three.CSG.js"></script>
 		<script src="Aula.js"></script>
+		<script src="Magna.js"></script>
         <script> 
             
 			var scene = new THREE.Scene(); 
@@ -32,9 +33,19 @@
 			//Setup scene objects
 			var aula = new Aula();
 			aula.object3D.position.z -= 10;
-
+			aula.object3D.position.x -= 7.5;
 			scene.add(aula.object3D);
-			
+			aula.object3D.castShadow = true;
+			aula.object3D.receiveShadow = true;
+
+			var magna = new Magna();
+			magna.object3D.position.z -= 10;
+			magna.object3D.position.x += 7.5;
+			scene.add(magna.object3D);
+			magna.object3D.castShadow = true;
+			magna.object3D.receiveShadow = true;
+
+			renderer.shadowMap.enabled = true;
 			//Tick function
 			var render = function () { 
 				requestAnimationFrame(render); 
@@ -44,23 +55,29 @@
 
             function setupLighting(scene) {
 				
-				var front = new THREE.DirectionalLight( 0xffffff, 1 );
-				front.position.set(-130, 140, 1500);
-				front.position.multiplyScalar( 1.1 );
-				front.rotation.x += THREE.Math.degToRad(10);
-				front.rotation.y -= THREE.Math.degToRad(25);
+				var front = new THREE.DirectionalLight( 0xffffff, .2 );
+				front.position.set(-10, 1000, 1500);
+				front.rotation.x += THREE.Math.degToRad(30);
+				front.rotation.y += THREE.Math.degToRad(35);
 				scene.add(front);
+				front.castShadow = true;
+				front.shadow.camera.near = 1.0;
 
 				var right = new THREE.DirectionalLight( 0xffffff, .8 );
-				right.position.set(10000, 0, 0);
+				right.position.set(-1030, 1000, 1500);
 				right.rotation.y += THREE.Math.degToRad(90);
 				scene.add(right);
 
-				var back = new THREE.DirectionalLight( 0xffffff, .75  );
-				back.position.set( 130, -140, -1500); 
-				scene.add(back);
+				var left = new THREE.DirectionalLight( 0xffffff, .7 );
+				left.position.set(1030, 1000, 1500);
+				left.rotation.y += THREE.Math.degToRad(90);
+				scene.add(left);
+
+				var back = new THREE.DirectionalLight( 0xffffff,.75  );
+				back.position.set(-10, 1000, -1500); 
 				back.rotation.x -= THREE.Math.degToRad(30);
-				back.rotation.y -= THREE.Math.degToRad(20);
+				back.rotation.y -= THREE.Math.degToRad(35);
+				scene.add(back);
 			}
 			
 			function doKeyDown(evt){
