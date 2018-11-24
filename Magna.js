@@ -7,11 +7,11 @@ Magna.prototype.makeMagna = function() {
 
     //Materials 
      var glassMat = new THREE.MeshPhongMaterial ({ 
-        color: 0x19c1a8, 
-        specular: 0x555555,
+        color: 0x003f3f, 
+        specular: 0x222222,
         transparent: true, 
-        opacity: 0.3,                             
-		shininess: 20,
+        opacity: 0.8,                             
+		shininess: 50,
 		side: THREE.DoubleSide
 	});
 	var concreteMat = new THREE.MeshLambertMaterial ({ 
@@ -21,43 +21,47 @@ Magna.prototype.makeMagna = function() {
 
     //Measures
     let magnaRadius = 7;
-    let magnaHeight = 2.75;
+    let magnaHeight = 3.15;
+    let firstBaseHeight = magnaHeight * .25;
+    let windowHeight = magnaHeight * .12;
+    let inBetweenBaseHeight = magnaHeight * .2;
+    let topBaseHeight = magnaHeight - (firstBaseHeight + windowHeight * 2 + inBetweenBaseHeight);
     let groundHeight = .30;
-
-    let doorCutX = 6.5 * .19 * 2;
-    let doorCutY = 2.75 * .75;
-    let doorCutZ = .25 * 2;
+    let windowRadius = magnaRadius * 1;
+    let thethaLength = Math.PI * 2 - THREE.Math.degToRad(17);
+    let thetaStart = THREE.Math.degToRad(-50);
 
     //Geometries
-    let bodyGeom = new THREE.CylinderGeometry(magnaRadius, magnaRadius, magnaHeight, 128, 4, false);
+    let firstBaseGeom = new THREE.CylinderGeometry(magnaRadius, magnaRadius, firstBaseHeight, 128, 4, true, thetaStart, thethaLength);
+    let windowGeom = new THREE.CylinderGeometry(windowRadius, windowRadius, windowHeight, 128, 4, true, thetaStart, thethaLength);
+    let inBetweenBaseGeom = new THREE.CylinderGeometry(magnaRadius, magnaRadius, inBetweenBaseHeight, 128, 4, true, thetaStart, thethaLength);
+    let topBaseGeom = new THREE.CylinderGeometry(magnaRadius, magnaRadius, topBaseHeight, 128, 4, true);
+
     let groundGeom = new THREE.CylinderGeometry(magnaRadius, magnaRadius, groundHeight, 128, 4, false);
-    let doorCutGeom = new THREE.BoxGeometry(doorCutX, doorCutY, doorCutZ);
 
     //Meshes 
-    let body = new THREE.Mesh(bodyGeom, concreteMat);
+    let firstBase = new THREE.Mesh(firstBaseGeom, concreteMat);
+    let window1 = new THREE.Mesh(windowGeom, glassMat);
+    let inBetweenBase = new THREE.Mesh(inBetweenBaseGeom, concreteMat);
+    let window2 = window1.clone();
+    let topBase = new THREE.Mesh(topBaseGeom, concreteMat);
+
     let ground = new THREE.Mesh(groundGeom, concreteMat);
     let ceiling = ground.clone();
-    let doorCut = new THREE.Mesh(doorCutGeom, concreteMat);
 
     //offsets
+    firstBase.position.y = firstBaseHeight / 2;
+    window1.position.y = firstBaseHeight + windowHeight / 2;
+    inBetweenBase.position.y = firstBaseHeight + windowHeight + inBetweenBaseHeight / 2;
+    window2.position.y = firstBaseHeight + windowHeight + inBetweenBaseHeight + windowHeight /2;
+    topBase.position.y = firstBaseHeight + windowHeight + inBetweenBaseHeight + windowHeight + topBaseHeight / 2;
+
     ground.position.y = -groundHeight/2;
-    body.position.y = magnaHeight/2;
     ceiling.position.y = magnaHeight + groundHeight / 2;
-    doorCut.position.set(magnaRadius ,doorCutY / 2, magnaRadius);
-
-
-    //CSG
-    var magnaCSG = THREE.CSG.fromMesh (body);
-    magnaCSG = magnaCSG.union(THREE.CSG.fromMesh (ground));
-    magnaCSG = magnaCSG.union(THREE.CSG.fromMesh (ceiling));
-
-    magnaCSG = magnaCSG.subtract(THREE.CSG.fromMesh (doorCut));
 
     //
-    let magnaBody = THREE.CSG.toMesh(magnaCSG, concreteMat);
-
     var magna = new THREE.Object3D();
-    magna.add(magnaBody);
+    magna.add(ground, ceiling, firstBase, window1, window2, inBetweenBase, topBase);
 
     return magna;
 
