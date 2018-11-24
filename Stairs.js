@@ -8,7 +8,6 @@ Stairs.prototype.makeStairs = function(width, rise) {
     let stepMat = new THREE.MeshLambertMaterial ({ 
 		color: 0x77797c,
         side: THREE.DoubleSide,
-        specular: 0x848787
     });
 
     let endPlatformDepth = width;

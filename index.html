@@ -13,6 +13,7 @@
 		<script src="Aula.js"></script>
 		<script src="Magna.js"></script>
 		<script src="Stairs.js"></script>
+		<script src="DAE.js"></script>
         <script> 
             
 			var scene = new THREE.Scene(); 
@@ -35,22 +36,28 @@
 			var aula = new Aula();
 			aula.object3D.position.z -= 10;
 			aula.object3D.position.x -= 7.5;
-			scene.add(aula.object3D);
+			//scene.add(aula.object3D);
 			aula.object3D.castShadow = true;
 			aula.object3D.receiveShadow = true;
 
 			var magna = new Magna();
 			magna.object3D.position.z -= 10;
 			magna.object3D.position.x += 7.5;
-			scene.add(magna.object3D);
+			//scene.add(magna.object3D);
 			magna.object3D.castShadow = true;
 			magna.object3D.receiveShadow = true;
 
 			var stairs = new Stairs(2, 2.5);
 			stairs.object3D.position.z -= 10;
-			scene.add(stairs.object3D);
+			//scene.add(stairs.object3D);
 			stairs.object3D.castShadow = true;
 			stairs.object3D.receiveShadow = true;
+			
+			var dae = new DAE();
+			dae.object3D.position.z -= 30;
+			scene.add(dae.object3D);
+			dae.object3D.castShadow = true;
+			dae.object3D.receiveShadow = true;
 
 			renderer.shadowMap.enabled = true;
 			//Tick function
