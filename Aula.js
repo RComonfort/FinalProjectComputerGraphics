@@ -20,7 +20,7 @@ Aula.prototype.makeAula = function() {
     });
     
     //Measures
-    let groundX = 6.5;
+    let groundX = 7;
     let groundY = 0.3;
     let groundZ = groundX;
     let latWallX = groundX;
