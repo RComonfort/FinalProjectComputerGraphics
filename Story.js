@@ -14,7 +14,7 @@ function Story(level, shouldHaveGlass, isTopLevel, aulaCount, shouldHaveMagna) {
 		color: 0xbabcbc,
         side: THREE.DoubleSide,
         polygonOffset: true,
-        polygonOffsetFactor: -0.07
+        polygonOffsetFactor: -0.09
     });
     this.waterProofMat = new THREE.MeshLambertMaterial ({ 
 		color: 0xc43e2d,
@@ -26,7 +26,7 @@ function Story(level, shouldHaveGlass, isTopLevel, aulaCount, shouldHaveMagna) {
 		color: 0x77797c,
         side: THREE.DoubleSide,
         polygonOffset: true,
-        polygonOffsetFactor: 0.1
+        polygonOffsetFactor: 0.11
     });
     
     this.object3D = this.makeStory(level, shouldHaveGlass, isTopLevel, aulaCount, shouldHaveMagna);
@@ -48,7 +48,8 @@ Story.prototype.makeStory = function(level, shouldHaveGlass, isTopLevel, aulaCou
     //Measures
     let walkwayWidth = Math.abs(aulaDimensions.z - magnaDiameter);
     let walkwayHeight = 0.3;
-    this.levelLength = aulaCount * aulaLength + (shouldHaveMagna ? magnaDiameter / 2 +  magnaStairsX: 0);
+    this.levelLength = aulaCount * aulaLength + (shouldHaveMagna ? magnaDiameter +  magnaStairsX: 0);
+    let walkwayLength = this.levelLength - (shouldHaveMagna ? magnaDiameter/ 2 : 0);
 
     let barrierY = aulaDimensions.y / 2;
     let barrierZ = 0.3
@@ -57,13 +58,13 @@ Story.prototype.makeStory = function(level, shouldHaveGlass, isTopLevel, aulaCou
     let glassZ = barrierZ / 5;
 
     //Geometries
-    let floorGeom = new THREE.BoxGeometry(this.levelLength, walkwayHeight, walkwayWidth);
-    let barrierGeom = new THREE.BoxGeometry(this.levelLength, barrierY, barrierZ);
-    let glassGeom = new THREE.BoxGeometry(this.levelLength, glassY, glassZ);
+    let floorGeom = new THREE.BoxGeometry(walkwayLength, walkwayHeight, walkwayWidth);
+    let barrierGeom = new THREE.BoxGeometry(walkwayLength, barrierY, barrierZ);
+    let glassGeom = new THREE.BoxGeometry(walkwayLength, glassY, glassZ);
 
     //Create hierarchy
     var storyObj = new THREE.Object3D();
-    var currentX = this.levelLength/2;
+    var currentX = walkwayLength/2;
 
     //if this floor should have an aula magna 
     if (shouldHaveMagna) {
@@ -72,6 +73,7 @@ Story.prototype.makeStory = function(level, shouldHaveGlass, isTopLevel, aulaCou
         magnaBase.position.z -= walkwayWidth / 2 * .92;
 
         currentX -= magnaDiameter / 2 + magnaStairsX / 2;
+
         //make stairs to downwards if level > 1 && !isTopLevel
         if (level > 1 && !isTopLevel) {
             let stairs = makeUShapedStair(magnaStairsX, this.levelHeight);
@@ -79,12 +81,13 @@ Story.prototype.makeStory = function(level, shouldHaveGlass, isTopLevel, aulaCou
             
             stairs.position.x = currentX;
             stairs.position.y -= this.levelHeight;
+            stairs.scale.z *= -1;
+            stairs.rotation.y += Math.PI;
         }
         currentX -= magnaStairsX / 2;
     }
     currentX -= aulaLength / 2;
 
-    
     //Add aulas
     if (!isTopLevel) {
         for (var i = 0; i < aulaCount; i++) {
@@ -101,7 +104,7 @@ Story.prototype.makeStory = function(level, shouldHaveGlass, isTopLevel, aulaCou
         storyObj.add(floor);
     }
     else {
-        let bigFloorGeom = new THREE.BoxGeometry(this.levelLength, walkwayHeight, magnaDiameter);
+        let bigFloorGeom = new THREE.BoxGeometry(walkwayLength, walkwayHeight, magnaDiameter);
         var bigFloor = new THREE.Mesh(bigFloorGeom, this.waterProofMat);
         bigFloor.position.y = -walkwayHeight / 2;
         bigFloor.position.z = magnaBase.position.z;
@@ -111,7 +114,7 @@ Story.prototype.makeStory = function(level, shouldHaveGlass, isTopLevel, aulaCou
     //Create barriers if level > 1 on both sides
     if (level > 1) {
         let frontBarrier = new THREE.Mesh(barrierGeom, this.concreteMat);
-        frontBarrier.position.z = walkwayWidth - barrierZ / 2;
+        frontBarrier.position.z = walkwayWidth - barrierZ / 2 + .01;
 
         let backBarrier = frontBarrier.clone();
         backBarrier.position.z = - aulaDimensions.z - walkwayHeight / 2;

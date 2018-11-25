@@ -1,13 +1,13 @@
 
-function Stairs(width, rise) {
+function Stairs(width, rise, makeBeginPlatform = false) {
     this.stepHeight = 0.18;
     this.stepCount = rise / this.stepHeight;
     this.stepRun =  0.45;
     this.run = this.stepCount * this.stepRun;
-    this.object3D = this.makeStairs(width, rise);
+    this.object3D = this.makeStairs(width, rise, makeBeginPlatform);
 }
 
-Stairs.prototype.makeStairs = function(width, rise) {
+Stairs.prototype.makeStairs = function(width, rise, makeBeginPlatform) {
 
     let stepMat = new THREE.MeshLambertMaterial ({ 
 		color: 0x77797c,
@@ -35,12 +35,19 @@ Stairs.prototype.makeStairs = function(width, rise) {
     endPlatform.position.set(0, nextY, nextZ + this.stepRun/2 - endPlatformDepth / 2);
     stairs.add(endPlatform);
 
+    if (makeBeginPlatform) {
+        let beginPlatform = endPlatform.clone();
+        beginPlatform.position.set(0, this.stepHeight / 2, endPlatformDepth / 2);
+
+        stairs.add(beginPlatform);
+    }
+
     return stairs;
 }
 
-function makeUShapedStair(width, rise) {
+function makeUShapedStair(width, rise, makeBeginPlatform = false) {
 
-    var stair = new Stairs(width / 2, rise / 2);
+    var stair = new Stairs(width / 2, rise / 2, makeBeginPlatform);
     let stepHeight = stair.stepHeight;
 
     var firstHalf = stair.object3D;
@@ -58,7 +65,7 @@ function makeUShapedStair(width, rise) {
     return stairSet;
 }
 
-function makeAulaStairs (levels) {
+function makeAulaStairs (levels, makeBeginPlatform = false) {
 
     //Materials
     let coverMat = new THREE.MeshPhongMaterial({
@@ -69,10 +76,9 @@ function makeAulaStairs (levels) {
 
     });
 
-
     //Measures
     let levelHeight = (new THREE.Box3().setFromObject(new Aula().object3D)).getSize().y;
-    let coverRadius = 5;
+    let coverRadius = 4;
     let thetaLength = Math.PI;
     let thetaStart = Math.PI / 2;
     let coverHeight = levelHeight * (levels + 1);
@@ -95,7 +101,7 @@ function makeAulaStairs (levels) {
     aulaStairs.add(cover, wall1, wall2);
     //Stairs
     for (var i = 0; i < levels; i++) {
-        var stairs = makeUShapedStair(coverRadius * 2, levelHeight);
+        var stairs = makeUShapedStair(coverRadius * 2, levelHeight, makeBeginPlatform);
         stairs.position.y = i * levelHeight;
 
         aulaStairs.add(stairs);
