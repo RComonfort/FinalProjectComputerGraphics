@@ -16,6 +16,7 @@
 		<script src="DAE.js"></script>
 		<script src="Cafeteria.js"></script>
 		<script src="Story.js"></script>
+		<script src="AulasBuilding.js"></script>
         <script> 
             
 			var scene = new THREE.Scene(); 
@@ -33,11 +34,11 @@
 			var camRotSpeed = 0.1;
 			window.addEventListener('keydown',doKeyDown,true);
 
-			var stairs = makeAulaStairs (5);
-			scene.add(stairs);
-			stairs.position.z -= 20;
-			stairs.castShadow = true;
-			stairs.receiveShadow = true;
+			var aulas1 = new AulasBuilding(2).object3D;
+			scene.add(aulas1);
+			aulas1.position.z -= 20;
+			aulas1.castShadow = true;
+			aulas1.receiveShadow = true;
 
 			renderer.shadowMap.enabled = true;
 			//Tick function

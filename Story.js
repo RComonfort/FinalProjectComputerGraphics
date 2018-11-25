@@ -43,7 +43,7 @@ Story.prototype.makeStory = function(level, shouldHaveGlass, isTopLevel, aulaCou
     let aulaLength = aulaDimensions.x;
     let magnaDiameter = magnaDimensions.x;
     let magnaStairsX = 4;
-    let levelHeight = Math.min(aulaDimensions.y, magnaDimensions.y);
+    this.levelHeight = Math.min(aulaDimensions.y, magnaDimensions.y);
 
     //Measures
     let walkwayWidth = Math.abs(aulaDimensions.z - magnaDiameter);
@@ -74,11 +74,11 @@ Story.prototype.makeStory = function(level, shouldHaveGlass, isTopLevel, aulaCou
         currentX -= magnaDiameter / 2 + magnaStairsX / 2;
         //make stairs to downwards if level > 1 && !isTopLevel
         if (level > 1 && !isTopLevel) {
-            let stairs = makeUShapedStair(magnaStairsX, levelHeight);
+            let stairs = makeUShapedStair(magnaStairsX, this.levelHeight);
             storyObj.add(stairs);
             
             stairs.position.x = currentX;
-            stairs.position.y -= levelHeight;
+            stairs.position.y -= this.levelHeight;
         }
         currentX -= magnaStairsX / 2;
     }
@@ -107,8 +107,6 @@ Story.prototype.makeStory = function(level, shouldHaveGlass, isTopLevel, aulaCou
         bigFloor.position.z = magnaBase.position.z;
         storyObj.add(bigFloor);
     } 
-
-    
 
     //Create barriers if level > 1 on both sides
     if (level > 1) {
