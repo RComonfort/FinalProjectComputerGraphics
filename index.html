@@ -14,6 +14,7 @@
 		<script src="Magna.js"></script>
 		<script src="Stairs.js"></script>
 		<script src="DAE.js"></script>
+		<script src="Story.js"></script>
         <script> 
             
 			var scene = new THREE.Scene(); 
@@ -29,35 +30,13 @@
 			
             var moveSpeed = 1.5;
 			var camRotSpeed = 0.1;
-			var gearRotSpeed = 0.005
 			window.addEventListener('keydown',doKeyDown,true);
-			
-			//Setup scene objects
-			var aula = new Aula();
-			aula.object3D.position.z -= 10;
-			aula.object3D.position.x -= 7.5;
-			//scene.add(aula.object3D);
-			aula.object3D.castShadow = true;
-			aula.object3D.receiveShadow = true;
 
-			var magna = new Magna();
-			magna.object3D.position.z -= 10;
-			magna.object3D.position.x += 7.5;
-			//scene.add(magna.object3D);
-			magna.object3D.castShadow = true;
-			magna.object3D.receiveShadow = true;
-
-			var stairs = new Stairs(2, 2.5);
-			stairs.object3D.position.z -= 10;
-			//scene.add(stairs.object3D);
-			stairs.object3D.castShadow = true;
-			stairs.object3D.receiveShadow = true;
-			
-			var dae = new DAE();
-			dae.object3D.position.z -= 30;
-			scene.add(dae.object3D);
-			dae.object3D.castShadow = true;
-			dae.object3D.receiveShadow = true;
+			var level = new Story(3, true, true, 3, true);
+			scene.add(level.object3D);
+			level.object3D.position.z -= 20;
+			level.object3D.castShadow = true;
+			level.object3D.receiveShadow = true;
 
 			renderer.shadowMap.enabled = true;
 			//Tick function
@@ -69,7 +48,7 @@
 
             function setupLighting(scene) {
 				
-				var front = new THREE.DirectionalLight( 0xffffff, .2 );
+				var front = new THREE.DirectionalLight( 0xffffff, .05 );
 				front.position.set(-10, 1000, 1500);
 				front.rotation.x += THREE.Math.degToRad(30);
 				front.rotation.y += THREE.Math.degToRad(35);

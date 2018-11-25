@@ -20,15 +20,15 @@ Aula.prototype.makeAula = function() {
     });
     
     //Measures
-    let groundX = 7;
+    let groundX = 8;
     let groundY = 0.3;
-    let groundZ = groundX;
+    let groundZ = 9;
     let latWallX = groundX;
     let latWallY = 2.75;
     let latWallZ = .25;
     let backWallX = latWallZ;
     let backWallY = latWallY;
-    let backWallZ = latWallX;
+    let backWallZ = groundZ;
 
     let bigWindowsCutX = latWallX - backWallX ;
     let bigWindowsCutY = latWallY * .6;
@@ -110,6 +110,10 @@ Aula.prototype.makeAula = function() {
 
     var aula = new THREE.Object3D();
     aula.add(classroom, windowSmall, windowBig);
+
+    for (var obj of aula.children) {
+        obj.position.z -= groundZ / 2;
+    }
 
     return aula;
 }

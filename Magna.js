@@ -6,7 +6,7 @@ function Magna() {
 Magna.prototype.makeMagna = function() {
 
     //Materials 
-     var glassMat = new THREE.MeshPhongMaterial ({ 
+    var glassMat = new THREE.MeshPhongMaterial ({ 
         color: 0x003f3f, 
         specular: 0x222222,
         transparent: true, 
