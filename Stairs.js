@@ -57,3 +57,56 @@ function makeUShapedStair(width, rise) {
 
     return stairSet;
 }
+
+function makeAulaStairs (levels) {
+
+    //Materials
+    let coverMat = new THREE.MeshPhongMaterial({
+        color: 0xb7b7b7,
+        shininess: 0.6,
+        reflectivity: 0.8,
+        side: THREE.DoubleSide
+
+    });
+
+
+    //Measures
+    let levelHeight = (new THREE.Box3().setFromObject(new Aula().object3D)).getSize().y;
+    let coverRadius = 5;
+    let thetaLength = Math.PI;
+    let thetaStart = Math.PI / 2;
+    let coverHeight = levelHeight * (levels + 1);
+    let latWallX = 0.1;
+    let latWallY = coverHeight;
+    let latWallZ = coverRadius;
+    
+    //Geometries 
+    let coverGeom = new THREE.CylinderGeometry(coverRadius, coverRadius, coverHeight, 64, levels, false, thetaStart, thetaLength);
+    let latWallGeom = new THREE.BoxGeometry(latWallX, latWallY, latWallZ);
+
+    //Object
+    let aulaStairs = new THREE.Object3D();
+
+    //Meshes
+    let cover = new THREE.Mesh(coverGeom, coverMat);
+    let wall1 = new THREE.Mesh(latWallGeom, coverMat);
+    let wall2 = wall1.clone();
+    
+    aulaStairs.add(cover, wall1, wall2);
+    //Stairs
+    for (var i = 0; i < levels; i++) {
+        var stairs = makeUShapedStair(coverRadius * 2, levelHeight);
+        stairs.position.y = i * levelHeight;
+
+        aulaStairs.add(stairs);
+    }
+
+    cover.position.y = coverHeight / 2;
+    cover.position.z = - 3/2*coverRadius;
+    wall1.position.y = wall2.position.y = cover.position.y;
+    wall1.position.z = wall2.position.z = -latWallZ;
+    wall1.position.x = -coverRadius;
+    wall2.position.x = coverRadius;
+
+    return aulaStairs;
+}

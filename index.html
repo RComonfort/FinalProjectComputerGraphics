@@ -14,6 +14,7 @@
 		<script src="Magna.js"></script>
 		<script src="Stairs.js"></script>
 		<script src="DAE.js"></script>
+		<script src="Cafeteria.js"></script>
 		<script src="Story.js"></script>
         <script> 
             
@@ -32,11 +33,11 @@
 			var camRotSpeed = 0.1;
 			window.addEventListener('keydown',doKeyDown,true);
 
-			var level = new Story(3, true, true, 3, true);
-			scene.add(level.object3D);
-			level.object3D.position.z -= 20;
-			level.object3D.castShadow = true;
-			level.object3D.receiveShadow = true;
+			var stairs = makeAulaStairs (5);
+			scene.add(stairs);
+			stairs.position.z -= 20;
+			stairs.castShadow = true;
+			stairs.receiveShadow = true;
 
 			renderer.shadowMap.enabled = true;
 			//Tick function
