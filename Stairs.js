@@ -73,7 +73,10 @@ function makeAulaStairs (levels, makeBeginPlatform = false) {
         shininess: 0.6,
         reflectivity: 0.8,
         side: THREE.DoubleSide
-
+    });
+    let stepMat = new THREE.MeshLambertMaterial ({ 
+		color: 0x77797c,
+        side: THREE.DoubleSide,
     });
 
     //Measures
@@ -84,11 +87,13 @@ function makeAulaStairs (levels, makeBeginPlatform = false) {
     let coverHeight = levelHeight * (levels + 1);
     let latWallX = 0.1;
     let latWallY = coverHeight;
-    let latWallZ = coverRadius;
+    let latWallZ = coverRadius * 1.5;
+    let floorZ = 5;
     
     //Geometries 
     let coverGeom = new THREE.CylinderGeometry(coverRadius, coverRadius, coverHeight, 64, levels, false, thetaStart, thetaLength);
     let latWallGeom = new THREE.BoxGeometry(latWallX, latWallY, latWallZ);
+    let floorGeom = new THREE.BoxGeometry(coverRadius * 2, .3, floorZ);
 
     //Object
     let aulaStairs = new THREE.Object3D();
@@ -100,17 +105,26 @@ function makeAulaStairs (levels, makeBeginPlatform = false) {
     
     aulaStairs.add(cover, wall1, wall2);
     //Stairs
-    for (var i = 0; i < levels; i++) {
-        var stairs = makeUShapedStair(coverRadius * 2, levelHeight, makeBeginPlatform);
-        stairs.position.y = i * levelHeight;
+    for (var i = 0; i <= levels; i++) {
 
-        aulaStairs.add(stairs);
+        if (i < levels) {
+            var stairs = makeUShapedStair(coverRadius * 2, levelHeight, makeBeginPlatform);
+            stairs.position.y = i * levelHeight;
+
+            aulaStairs.add(stairs);
+        }
+        
+        let floor = new THREE.Mesh(floorGeom, stepMat);
+        floor.position.z = floorZ / 2;
+        floor.position.y = i * levelHeight - .15;
+        aulaStairs.add(floor);
     }
 
     cover.position.y = coverHeight / 2;
     cover.position.z = - 3/2*coverRadius;
+
     wall1.position.y = wall2.position.y = cover.position.y;
-    wall1.position.z = wall2.position.z = -latWallZ;
+    wall1.position.z = wall2.position.z = - latWallZ / 2;
     wall1.position.x = -coverRadius;
     wall2.position.x = coverRadius;
 
