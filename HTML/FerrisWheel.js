@@ -1,5 +1,6 @@
-//Rafael Antonio Comonfort Viveros A01324276
-
+/*A01328937	Luis Francisco Flores Romero*/
+/*A01324276	Rafael Antonio Comonfort Viveros*/
+/*25.nov.2018*/
 function FerrisWheel() {
     this.object3D = makeFerrisWheel();
     this.object3D.scale.set(2.5, 2.5, 2.5);

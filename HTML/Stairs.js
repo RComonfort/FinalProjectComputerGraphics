@@ -1,4 +1,6 @@
-
+/*A01328937	Luis Francisco Flores Romero*/
+/*A01324276	Rafael Antonio Comonfort Viveros*/
+/*25.nov.2018*/
 function Stairs(width, rise, makeBeginPlatform = false) {
     this.stepHeight = 0.18;
     this.stepCount = rise / this.stepHeight;

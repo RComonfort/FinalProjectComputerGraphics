@@ -1,4 +1,6 @@
-
+/*A01328937	Luis Francisco Flores Romero*/
+/*A01324276	Rafael Antonio Comonfort Viveros*/
+/*25.nov.2018*/
 function AulasBuilding(aulasBuildingNum) {
     this.rightSideLevels = [];
     this.leftSideLevels = [];

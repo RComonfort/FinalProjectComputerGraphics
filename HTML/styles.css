@@ -1,0 +1,25 @@
+/*A01328937	Luis Francisco Flores Romero*/
+/*A01324276	Rafael Antonio Comonfort Viveros*/
+/*24.oct.2018*/
+html {
+	padding: 0;
+	border: none;
+	margin: 0;
+	
+	background-color: rgb(50, 50, 50);
+}
+
+body {
+	padding: 0;
+	border: none;
+	margin: 0;
+}
+
+canvas {
+	padding: 0;
+	border: none;
+	margin: 0;
+	
+	width: 100%;
+	height: 100%;
+}

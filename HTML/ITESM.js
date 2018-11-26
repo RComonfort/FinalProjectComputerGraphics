@@ -1,4 +1,6 @@
-
+/*A01328937	Luis Francisco Flores Romero*/
+/*A01324276	Rafael Antonio Comonfort Viveros*/
+/*25.nov.2018*/
 function createITESM(scene) {
     var aulas2 = new AulasBuilding(2).object3D;
     scene.add(aulas2);
