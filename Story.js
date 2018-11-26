@@ -60,7 +60,7 @@ Story.prototype.makeStory = function(level, shouldHaveGlass, isTopLevel, aulaCou
     //Geometries
     let floorGeom = new THREE.BoxGeometry(walkwayLength, walkwayHeight, walkwayWidth);
     let barrierGeom = new THREE.BoxGeometry(walkwayLength + (shouldExtendFrontBarrier ? 2*aulaLength / 3 : 0), barrierY, barrierZ);
-    let glassGeom = new THREE.BoxGeometry(walkwayLength, glassY, glassZ);
+    let glassGeom = new THREE.BoxGeometry(walkwayLength + (shouldExtendFrontBarrier ? 2*aulaLength / 3 : 0), glassY, glassZ);
 
     //Create hierarchy
     var storyObj = new THREE.Object3D();
@@ -131,6 +131,8 @@ Story.prototype.makeStory = function(level, shouldHaveGlass, isTopLevel, aulaCou
             storyObj.add(glassCover);
             glassCover.position.z = frontBarrier.position.z;
             glassCover.position.y = frontBarrier.position.y + barrierY / 2 + glassY / 2; 
+            glassCover.position.x = shouldExtendFrontBarrier ? -aulaLength / 3 : 0;
+
         }
     }
     return storyObj;

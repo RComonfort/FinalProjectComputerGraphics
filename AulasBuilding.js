@@ -24,7 +24,7 @@ AulasBuilding.prototype.makeAulasBuilding = function(aulasBuildingNum) {
 
     //Create rightSide (where the labs were) of Aulas2
     for (var i = 0; i < 4; i++) {
-        var level = new Story(i + 1, aulasBuildingNum == 1, i == 3, 4, true, true, true);
+        var level = new Story(i + 1, false, i == 3, 4, true, true, true);
         this.rightSideLevels.push(level);
 
         level.object3D.position.y = level.levelHeight * i;
@@ -34,11 +34,11 @@ AulasBuilding.prototype.makeAulasBuilding = function(aulasBuildingNum) {
     }
 
     //Create middle orphan levels (that do not belong to the left or right sections of an Aulas Building)
-    for (var i = 0; i < 2; i++) {
-        var level = new Story(i + 2, aulasBuildingNum == 1, false, 1, false);
+    for (var i = 0; i < 5; i++) {
+        var level = new Story(i + 1, aulasBuildingNum == 1, false, 1, false);
         this.orphanLevels.push(level);
 
-        level.object3D.position.y = level.levelHeight * (i + 3);
+        level.object3D.position.y = level.levelHeight * i;
         level.object3D.position.x = orphanAulasX;
         level.object3D.position.z = leftSideZ + 2.5;
         level.object3D.rotation.y += middleRotationAngle;
@@ -64,7 +64,7 @@ AulasBuilding.prototype.makeAulasBuilding = function(aulasBuildingNum) {
 
     //Create leftSide (parallel to OXXO?)
     for (var i = 0; i < 6; i++) {
-        var level = new Story(i + 1, false, i == 5, 4, true, true, true);
+        var level = new Story(i + 1, aulasBuildingNum == 1, i == 5, 4, true, true, true);
         this.leftSideLevels.push(level);
 
         level.object3D.position.y = level.levelHeight * i;
