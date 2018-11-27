@@ -1,10 +1,18 @@
 /*A01328937	Luis Francisco Flores Romero*/
 /*A01324276	Rafael Antonio Comonfort Viveros*/
 /*25.nov.2018*/
+
+/**
+ * Constructor for a new cafeteria
+ */
 function Cafeteria() {
 	this.object3D = this.makeCafeteria();
 }
 
+/**
+ * Constructs a cafeteria building object
+ * @returns An Object3D containing all hierarchy
+ */
 Cafeteria.prototype.makeCafeteria = function() {
 
     //Materials 

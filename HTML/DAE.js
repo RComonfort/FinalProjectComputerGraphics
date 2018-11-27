@@ -5,6 +5,10 @@ function DAE() {
     this.object3D = this.makeDae();
 }
 
+/**
+ * Constructs a Centro Estudiantil building object
+ * @returns An Object3D containing all hierarchy
+ */
 DAE.prototype.makeDae = function(){
 
     //Mats
