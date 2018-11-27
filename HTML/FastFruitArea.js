@@ -78,6 +78,11 @@ function makeFastFruitArea() {
     return FFarea;
 }
 
+/**
+ * Constructs a hallway adjacent to fast fruit area
+ * @param {boolean} isForNorthSide Whether the hallway is north (towards fountain) or south (towards library). Used mainly to add glass to one of the hallways if in north side
+ * @returns An Object3D containing all hierarchy
+ */
 function makeAdjacentToFF(isForNorthSide = false) {
     var object = new THREE.Object3D();
 

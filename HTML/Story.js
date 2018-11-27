@@ -1,6 +1,17 @@
 /*A01328937	Luis Francisco Flores Romero*/
 /*A01324276	Rafael Antonio Comonfort Viveros*/
 /*25.nov.2018*/
+
+/**
+ * Constructor for a single building's story 
+ * @param {Number} level The number from 1 to n, that this story is
+ * @param {boolean} shouldHaveGlass Whether to add glass to the story (ignored unless level > 1)
+ * @param {boolean} isTopLevel Whether the level is the top-most in the building
+ * @param {Number} aulaCount The number of classrooms to have for this story
+ * @param {boolean} shouldHaveMagna Whether the story should have a magna classroom
+ * @param {boolean} shouldHaveFrontBarrier Whether the story should have a banister (ignored unless level > 1)
+ * @param {boolean} shouldExtendFrontBarrier If the story has a banister, whether to extend it a fraction of an aula's length
+ */
 function Story(level, shouldHaveGlass, isTopLevel, aulaCount, shouldHaveMagna, shouldHaveFrontBarrier = true, shouldExtendFrontBarrier = false) {
     this.glassMat = new THREE.MeshPhongMaterial ({ 
         color: 0x003f3f, 
@@ -34,6 +45,17 @@ function Story(level, shouldHaveGlass, isTopLevel, aulaCount, shouldHaveMagna, s
     this.object3D = this.makeStory(level, shouldHaveGlass, isTopLevel, aulaCount, shouldHaveMagna, shouldHaveFrontBarrier, shouldExtendFrontBarrier);
 }
 
+/**
+ * Constructs the Story hierarchy
+ * @param {Number} level The number from 1 to n, that this story is
+ * @param {boolean} shouldHaveGlass Whether to add glass to the story (ignored unless level > 1)
+ * @param {boolean} isTopLevel Whether the level is the top-most in the building
+ * @param {Number} aulaCount The number of classrooms to have for this story
+ * @param {boolean} shouldHaveMagna Whether the story should have a magna classroom
+ * @param {boolean} shouldHaveFrontBarrier Whether the story should have a banister (ignored unless level > 1)
+ * @param {boolean} shouldExtendFrontBarrier If the story has a banister, whether to extend it a fraction of an aula's length
+ * @returns An Object3D containing all hierarchy
+ */
 Story.prototype.makeStory = function(level, shouldHaveGlass, isTopLevel, aulaCount, shouldHaveMagna, shouldHaveFrontBarrier, shouldExtendFrontBarrier) {
     
     let aulaBase = new Aula().object3D;

@@ -5,6 +5,10 @@ function Magna() {
     this.object3D = this.makeMagna();
 }
 
+/**
+ * Constructs an Aula Magna
+ * @returns An Object3D containing all hierarchy
+ */
 Magna.prototype.makeMagna = function() {
 
     //Materials 

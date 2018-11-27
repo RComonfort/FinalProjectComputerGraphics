@@ -1,6 +1,11 @@
 /*A01328937	Luis Francisco Flores Romero*/
 /*A01324276	Rafael Antonio Comonfort Viveros*/
 /*25.nov.2018*/
+
+/**
+ * Creates an amusement park in the given scene
+ * @param {*} scene Scene from THREE JS that the amusement park will be added to
+ */
 function AmusementPark(scene) {
     
     this.object3D = new THREE.Object3D();

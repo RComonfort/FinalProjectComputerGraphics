@@ -8,6 +8,11 @@ function AulasBuilding(aulasBuildingNum) {
     this.object3D = this.makeAulasBuilding(aulasBuildingNum);
 }
 
+/**
+ * Constructs an aula building object
+ * @param {Number} aulasBuildingNum 1 or 2, depending on which aula we want
+ * @returns An Object3D containing all hierarchy
+ */
 AulasBuilding.prototype.makeAulasBuilding = function(aulasBuildingNum) {
 
     var aulasBuilding = new THREE.Object3D();

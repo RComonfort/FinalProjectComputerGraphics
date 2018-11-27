@@ -9,6 +9,13 @@ function Stairs(width, rise, makeBeginPlatform = false) {
     this.object3D = this.makeStairs(width, rise, makeBeginPlatform);
 }
 
+/**
+ * Constructs a set of standard stairs with an ending floor. 
+ * @param {Number} width The X dimensions of the stairs
+ * @param {Number} rise The height (Y dimension) the stairs will have
+ * @param {boolean} makeBeginPlatform Whether or not to add a platform to the beginning of the stair
+ * @returns An Object3D containing all hierarchy
+ */
 Stairs.prototype.makeStairs = function(width, rise, makeBeginPlatform) {
 
     let stepMat = new THREE.MeshLambertMaterial ({ 
@@ -47,6 +54,13 @@ Stairs.prototype.makeStairs = function(width, rise, makeBeginPlatform) {
     return stairs;
 }
 
+/**
+ * Constructs a U-Shaped stair 
+ * @param {Number} width The X dimensions of the stairs together
+ * @param {Number} rise The height (Y dimension) the 2 stairs will have
+ * @param {boolean} makeBeginPlatform Whether or not to add a platform to the beginning of the stair
+ * @returns An Object3D containing all hierarchy
+ */
 function makeUShapedStair(width, rise, makeBeginPlatform = false) {
 
     var stair = new Stairs(width / 2, rise / 2, makeBeginPlatform);
@@ -67,6 +81,12 @@ function makeUShapedStair(width, rise, makeBeginPlatform = false) {
     return stairSet;
 }
 
+/**
+ * Constructs a U-Shaped stair 
+ * @param {Number} levels The amount of stairs to stack on top of each other
+ * @param {boolean} makeBeginPlatform Whether or not to add a platform to the beginning of the stair
+ * @returns An Object3D containing all hierarchy
+ */
 function makeAulaStairs (levels, makeBeginPlatform = false) {
 
     //Materials

@@ -5,6 +5,10 @@ function Aula() {
     this.object3D = this.makeAula();
 }
 
+/**
+ * Constructs an aula object
+ * @returns An Object3D containing all Aula hierarchy
+ */
 Aula.prototype.makeAula = function() {
 
      //Materials 
