@@ -1,6 +1,8 @@
 /*A01328937	Luis Francisco Flores Romero*/
 /*A01324276	Rafael Antonio Comonfort Viveros*/
 /*24.oct.2018*/
+
+/*Set dark document background*/
 html {
 	padding: 0;
 	border: none;
@@ -9,6 +11,7 @@ html {
 	background-color: rgb(50, 50, 50);
 }
 
+/*Make the canvas use the whole viewport*/
 body {
 	padding: 0;
 	border: none;

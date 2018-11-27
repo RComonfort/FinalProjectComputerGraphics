@@ -4,6 +4,7 @@
 const loader2 = new THREE.GLTFLoader();
 const mtlLoader2 = new THREE.MTLLoader();
 
+//	Import propeller and scale
 function Propeller() {
 	this.mesh = new THREE.Object3D();
 	this.group = new THREE.Object3D();
@@ -29,11 +30,12 @@ function Propeller() {
 	this.init();
 }
 
+//	Import drone body and attach propellers
 function Drone() {
 	this.mesh = new THREE.Object3D();
 	this.group = new THREE.Object3D();
-	this.activated;
-	this.onBottom = true;
+	this.activated;	// Control flag
+	this.onBottom = true;	// Control flag
 	
 	this.propL;
 	this.propR;
@@ -59,6 +61,8 @@ function Drone() {
 		this.propR.mesh.position.z += 0.2;
 	};
 	
+	//	Animate propellers if required,
+	//	update height if required
 	this.animate = () => {
 		if(this.activated && !this.onTop) {
 			this.mesh.position.y += 0.02;
@@ -85,10 +89,12 @@ function Drone() {
 		}
 	};
 	
+	//	Activate the drone
 	this.activate = () => {
 		this.activated = true;
 	};
 	
+	//	Re-attach the drone
 	this.settle = () => {
 		this.activated = false;
 	};

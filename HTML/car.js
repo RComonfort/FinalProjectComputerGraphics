@@ -4,6 +4,8 @@
 const loader = new THREE.GLTFLoader();
 const mtlLoader = new THREE.MTLLoader();
 
+//	Import door and scale
+//	passenger indicades whether the door will be the passenger's door (-1/1)
 function Door( passenger ) {
 	this.mesh = new THREE.Object3D();
 	this.group = new THREE.Object3D();
@@ -32,6 +34,7 @@ function Door( passenger ) {
 	this.init();
 }
 
+//	Import hood and scale
 function Hood() {
 	this.mesh = new THREE.Object3D();
 	this.group = new THREE.Object3D();
@@ -60,6 +63,7 @@ function Hood() {
 	this.init();
 }
 
+//	Import trunk and scale
 function Trunk() {
 	this.mesh = new THREE.Object3D();
 	this.group = new THREE.Object3D();
@@ -87,6 +91,7 @@ function Trunk() {
 	this.init();
 }
 
+//	Import wheel
 function Wheel() {
 	this.mesh = new THREE.Object3D();
 	
@@ -101,6 +106,7 @@ function Wheel() {
 	this.init();
 }
 
+//	Import car body and scale
 function Body() {
 	this.mesh = new THREE.Object3D();
 	
@@ -126,18 +132,23 @@ function Body() {
 	this.init();
 }
 
+//	Assemble car object with components
+//	This car saves forward direction as an angle.
+//	Wheels direction is saved as an offset angle from the forward direction.
 function Car() {
 	this.wheel_fr;
 	this.wheel_fl;
 	this.wheel_rr;
 	this.wheel_rl;
 	
+	//	Actionable components
 	this.doorR;
 	this.doorL;
 	this.hood;
 	this.trunk;
 	this.drone;
 	
+	//	Control flags
 	this.doorsClosed = true;
 	this.doorsOpen = false;
 	this.hoodClosed = true;
@@ -154,6 +165,7 @@ function Car() {
 		let axisToAxis = 2.53;
 		let wheelToWheel = 1.4;
 		
+		//	Attach wheels
 		this.wheel_fr = new Wheel();
 		this.mesh.add( this.wheel_fr.mesh );
 		this.wheel_fr.mesh.rotation.y = toRad(180);
@@ -176,15 +188,19 @@ function Car() {
 		this.wheel_rl.mesh.position.x = -axisToAxis / 2;
 		this.wheel_rl.mesh.position.z = -wheelToWheel / 2;
 		
+		//	Attach body
 		let b = new Body();
 		this.mesh.add( b.mesh );
 		
+		//	Attach hood
 		this.hood = new Hood();
 		this.mesh.add( this.hood.mesh );
 		
+		//	Attach trunk
 		this.trunk = new Trunk();
 		this.mesh.add( this.trunk.mesh );
 		
+		//	Attach doors
 		this.doorR = new Door( 1 );
 		this.mesh.add( this.doorR.mesh );
 		this.doorR.mesh.scale.set( 1, 1, -1 );
@@ -192,32 +208,45 @@ function Car() {
 		this.doorL = new Door( -1 );
 		this.mesh.add( this.doorL.mesh );
 		
+		//	Attach drone
 		this.drone = new Drone();
 		this.mesh.add( this.drone.mesh );
 		
+		//	Initialize car parameters
 		this.mesh.position.y = 0.33;
 		this.forwardAngle = 0;
 		this.steeringOffset = 0;
 		this.maxSteeringDelta = 30;
 	}
 	
+	//	CONTROL FUNCTIONS
+	
+	//	Make the car go forward in the direction of the wheels
 	this.goForward = (step) => {
+		//	Compute wheels absolute angle
 		let wheelsDir = this.forwardAngle + this.steeringOffset;
+		//	Compute object translation
 		let dx = step * Math.cos(toRad(wheelsDir));
 		let dz = step * Math.sin(toRad(wheelsDir));
+		//	Translate the object
 		this.mesh.position.x += dx;
 		this.mesh.position.z -= dz;
 		
+		//	Compute new object rotation
 		let newRotation = toRad(this.steeringOffset * 0.5) * step;
+		//	Rotate the object
 		this.mesh.rotation.y += newRotation;
+		//	Update forward direction angle
 		this.forwardAngle = toDeg(this.mesh.rotation.y);
 		
+		//	Rotate wheels to simulate car movement
 		this.wheel_fr.mesh.rotation.z += toRad(step * 60);
 		this.wheel_fl.mesh.rotation.z -= toRad(step * 60);
 		this.wheel_rr.mesh.rotation.z += toRad(step * 60);
 		this.wheel_rl.mesh.rotation.z -= toRad(step * 60);
 	};
 	
+	//	Make the car turn its front wheels
 	this.steer = (angle) => {
 		if(Math.abs(this.steeringOffset + angle) <=
 			Math.abs( this.maxSteeringDelta )) {
@@ -227,9 +256,10 @@ function Car() {
 		}
 	};
 	
+	//	Open the car doors one step
 	this.openDoors = () => {
 		if(!this.doorsOpen) {
-			this.doorL.mesh.rotation.y -= 0.1;
+			this.doorL.mesh.rotation.y -= 0.1;	// Left door is mirrored
 			this.doorR.mesh.rotation.y += 0.1;
 			this.doorsClosed = false;
 		}
@@ -239,6 +269,7 @@ function Car() {
 		}
 	};
 	
+	//	Close the car doors one step
 	this.closeDoors = () => {
 		if(!this.doorsClosed) {
 			this.doorL.mesh.rotation.y += 0.1;
@@ -251,6 +282,7 @@ function Car() {
 		}
 	};
 	
+	//	Open the car hood one step
 	this.openHood = () => {
 		if(!this.hoodOpen) {
 			this.hood.mesh.rotation.z += 0.1;
@@ -261,6 +293,7 @@ function Car() {
 			this.hoodOpen = true;
 	};
 	
+	//	Close the car hood one step
 	this.closeHood = () => {
 		if(!this.hoodClosed) {
 			this.hood.mesh.rotation.z -= 0.1;
@@ -271,6 +304,7 @@ function Car() {
 			this.hoodClosed = true;
 	};
 	
+	//	Open the car trunk one step
 	this.openTrunk = () => {
 		if(!this.trunkOpen) {
 			this.trunk.mesh.rotation.z -= 0.1;
@@ -281,6 +315,7 @@ function Car() {
 			this.trunkOpen = true;
 	};
 	
+	//	Close the car trunk one step
 	this.closeTrunk = () => {
 		if(!this.trunkClosed) {
 			this.trunk.mesh.rotation.z += 0.1;
@@ -291,10 +326,12 @@ function Car() {
 			this.trunkClosed = true;
 	};
 	
+	//	Animate the drone object
 	this.animateDrone = () => {
 		this.drone.animate();
 	}
 	
+	//	Release/attach the drone
 	this.toggleDrone = () => {
 		if(this.droneActivated)
 			this.drone.settle();

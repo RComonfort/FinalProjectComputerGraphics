@@ -1,6 +1,11 @@
 /*A01328937	Luis Francisco Flores Romero*/
 /*A01324276	Rafael Antonio Comonfort Viveros*/
 /*25.nov.2018*/
+
+//	Create capsule
+//	baseRadius	Radius of the capsule
+//	jointRadius	Radius of the capsule joint ring
+//	material	Material to apply to the capsule
 function Capsule(baseRadius, jointRadius, material) {
 	this.mesh = new THREE.Object3D();
 	
@@ -47,6 +52,11 @@ function Capsule(baseRadius, jointRadius, material) {
 	this.mesh.add( base );
 }
 
+//	Create the ferris wheel
+//	radius		Wheel radius
+//	capsules	Amount of capsules in the wheel
+//	tubeRadius	Tube radius of the wheel structure
+//	ringToRing	Distance in between wheel rings
 function FerrisWheelSlim(radius, capsules, tubeRadius, ringToRing) {
 	this.mesh = new THREE.Object3D();
 	this.wheel;
